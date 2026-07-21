@@ -1,16 +1,10 @@
-Você tem razão. O erro de formatação anterior foi inaceitável. O markdown precisa ser limpo, estruturado e sem quebras de linha corrompidas.
-
-Aqui está o conteúdo **limpo, testado e pronto para copiar e colar** no seu arquivo `README.md` do repositório `repo-literary-revision-ai`. Não há texto fora de escopo, a numeração está corrigida e a formatação está padrão GitHub.
-
-Copie exatamente o bloco abaixo:
-
-```markdown
 <div align="center">
   <h1>Literary AI Proofreading & Copydesk Engine 🚀</h1>
   <p>
     <img src="https://img.shields.io/badge/Projeto_Real-99Freelas-00b853?style=for-the-badge&logo=freelancer&logoColor=white" alt="99Freelas" />
     <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
     <img src="https://img.shields.io/badge/Google_Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Google Gemini" />
+    <img src="https://img.shields.io/badge/NLP_Prompting-8E44AD?style=for-the-badge&logo=openai&logoColor=white" alt="NLP Prompting" />
     <img src="https://img.shields.io/badge/Docx_Automation-00A4EF?style=for-the-badge&logo=microsoftword&logoColor=white" alt="Word Automation" />
   </p>
   <h3>Pipeline automatizado de revisão ortográfica, gramatical e copidesque literário utilizando LLMs (Gemini 2.5 Flash) com rastreabilidade total de alterações.</h3>
@@ -23,77 +17,42 @@ Copie exatamente o bloco abaixo:
 > As credenciais de API da Google GenAI devem ser configuradas exclusivamente via arquivo `.env`. Nunca faça commit de chaves brutas em código.
 
 ## 📊 1. Visão Geral e Escopo Técnico
-O **Literary AI Proofreading Engine** é uma plataforma baseada em Python e engenharia avançada de prompts desenvolvida para realizar copidesque literário e revisão de provas em manuscritos de ficção de até 30.000 palavras. A solução integra a SDK oficial do `google-genai` com o modelo `gemini-2.5-flash`, empregando um algoritmo de segmentação semântica stateless que divide a obra em blocos contextuais otimizados sem perder a fluidez ou corromper a voz do autor.
+O **Literary AI Proofreading Engine** é uma plataforma baseada em Python e engenharia avançada de prompts desenvolvida para realizar copidesque literário e revisão de provas em manuscritos de ficção de até 30.000 palavras. A solução integra a nova SDK oficial do `google-genai` com o modelo `gemini-2.5-flash`, empregando um algoritmo de segmentação semântica stateless que divide a obra em blocos contextuais otimizados sem perder a fluidez ou corromper a voz do autor.
+
+No mercado editorial e autopublicação (Amazon KDP, editoras independentes), a revisão manual de um manuscrito desse porte exige dias de trabalho intensivo. O sistema automatiza esse processo em questão de minutos, gerando o documento final devidamente formatado em `.docx` acompanhado de um relatório detalhado de auditoria de alterações e um script de validação de integridade por cruzamento de dados.
 
 ## 💼 2. Business Intelligence & Contexto do Cliente
-* 🎯 **O Gargalo:** A autora necessitava de uma revisão ortográfica, gramatical e de pontuação literária para um romance infantojuvenil (29.262 palavras). O desafio crítico era alinhar a pontuação de diálogos (travessões e incisos) sem alterar o enredo ou a voz dos personagens.
-* 💡 **A Solução:** Foi criada uma esteira de processamento com "Regras de Ouro" para pontuação literária. O sistema entrega o manuscrito revisado + um laudo técnico em Word (`Relatorio_de_Revisao_Sarah.docx`) mapeando cada correção, garantindo transparência e valor comercial.
+* 🎯 **O Gargalo (A Dor Original):** A autora necessitava de uma revisão ortográfica, gramatical e de pontuação literária para um romance infantojuvenil finalizado (29.262 palavras). O desafio crítico consistia em corrigir erros da norma-padrão e alinhar a complexa pontuação de diálogos (travessões e incisos do narrador) sem alterar o enredo, a voz dos personagens ou criar alucinações de texto.
+* 💡 **A Solução Estratégica (O Valor Entregue):** Foi criada uma esteira de processamento que aplica diretrizes de engenharia de prompt estritas com "Regras de Ouro" para pontuação literária. Além de entregar o manuscrito revisado pronto para publicação, o sistema produz um laudo técnico em Word (`Relatorio_de_Revisao_Sarah.docx`) mapeando cada trecho original e sua respectiva correção, agregando transparência e valor comercial ao serviço prestado.
 
 ## 🏛️ 3. Arquitetura do Sistema e Fluxo de Dados
+
 ```mermaid
 flowchart TD
     subgraph Input ["Manuscrito de Entrada"]
-        A["romance_original.docx"]
+        A["romance_original.docx (29k palavras)"]
     end
-    subgraph Parser ["Chunking Semântico"]
+
+    subgraph Parser ["Chunking Semântico & Preparação"]
         B["Leitor de Blocos (2,500 palavras/bloco)"]
+        C["Instrução de Sistema com Regra de Ouro (Diálogos)"]
     end
-    subgraph AI_Engine ["Engine LLM (Gemini 2.5 Flash)"]
-        D["Processamento em Lote com Retry"]
-        E["Parsers: TEXTO REVISADO vs LOG DE ALTERAÇÕES"]
+
+    subgraph AI_Engine ["Engine LLM Stateless (Gemini 2.5 Flash)"]
+        D["Processamento em Lote com Retry Exponencial"]
+        E["Parsers de Saída: TEXTO REVISADO vs LOG DE ALTERAÇÕES"]
     end
-    subgraph QA ["Homologação & Artefatos"]
+
+    subgraph QA ["Homologação & Geração de Artefatos"]
         F["romance_revisado_final.docx"]
         G["log_de_alteracoes_Sarah.txt"]
+        H["Script de Homologação (Cruzamento de Strings)"]
+        I["Relatorio_de_Revisao_Sarah.docx (Formatado)"]
     end
-    A --> B --> D --> E --> F & G
 
-```
-
-## 🛠️ 4. Stack Tecnológica
-
-* **Core:** Python 3.11+, Google GenAI SDK (`google-genai`), modelo `gemini-2.5-flash`.
-* **Data & Storage:** `python-docx` para manipulação estruturada de documentos.
-* **Security:** Isolamento de chaves via variáveis de ambiente (`python-dotenv`).
-
-## ⚙️ 5. Destaques de Engenharia
-
-* **Engenharia de Prompt para Diálogos:** Regras formais para diferenciar travessões, vírgulas e pontos em incisos do narrador.
-* **Tags Delimitadoras:** Estruturação da resposta do LLM em blocos determinísticos (`=== TEXTO REVISADO ===` e `=== LOG DE ALTERACOES ===`).
-* **Homologação Automatizada:** Script que valida via *pattern matching* se as correções reportadas pela IA constam no documento final.
-
-## 🚀 6. Guia de Setup
-
-1. Instale as dependências:
-`pip install google-genai python-docx python-dotenv`
-2. Crie o arquivo `.env` na raiz com sua `GEMINI_API_KEY`.
-3. Execute o pipeline:
-`python src/corrigindo.py`
-`python src/homologacao.py`
-`python "src/gerar_relatorio.py"`
-
-## 📂 7. Árvore de Diretórios
-
-```text
-repo-literary-revision-ai/
-├── .env.example
-├── .gitignore
-├── README.md
-├── docs/
-│   └── briefing_original.txt
-├── src/
-│   ├── corrigindo.py
-│   ├── auditoria.py
-│   ├── homologacao.py
-│   ├── gerar_relatorio.py
-│   └── listar.py
-└── 00-BACKLOG-NAO-CATEGORIZADO/
-
-```
-
-```
-
----
-
-
-```
+    A --> B
+    B & C --> D
+    D --> E
+    E --> F & G
+    G --> H & I
+    F --> H
