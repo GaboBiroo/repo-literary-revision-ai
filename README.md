@@ -56,3 +56,53 @@ flowchart TD
     E --> F & G
     G --> H & I
     F --> H
+
+🛠️ 4. Stack Tecnológica e Engenharia
+Core / Engine: Python 3.11+, Google GenAI SDK (google-genai), modelo gemini-2.5-flash.
+Data, Cache & Storage: python-docx (Manipulação e formatação estruturada de documentos Office Open XML).
+Mensageria & Assincronismo: Sessões de chamadas stateless com controle de backoff e limite de requisições.
+Security & Network: Isolamento de chaves via variáveis de ambiente (python-dotenv), tratamento contra vazamento de dados.
+⚙️ 5. Auditoria de Destaques Técnicos (A "Assinatura" do Dev)
+Engenharia de Prompt Literária com "Regra de Ouro" para Incisos: Especificação formal para pontuação de diálogos literários, instruindo a IA a discernir quando o narrador interrompe frases contínuas ou divididas (ex: diferenciar vírgula e ponto final antes do segundo travessão).
+Pipeline de Parseamento Duplo com Tags Delimitadoras: Estruturação da resposta do LLM em blocos determinísticos (=== TEXTO REVISADO === e === LOG DE ALTERACOES ===), garantindo a separação automática entre o corpo do texto e os metadados de auditoria.
+Motor de Homologação e Integridade Automatizado (homologacao.py): Algoritmo de verificação cruzada que varre o relatório de alterações e valida via pattern matching se as correções reportadas pela IA realmente constam no documento Word finalizado.
+🚀 6. Guia de Setup e Deploy (Padrão 12-Factor)
+Dependências Mínimas: Python 3.10+, conexão de rede com a API da Google Cloud.
+Variáveis de Ambiente: Crie o arquivo .env na raiz do projeto com base no .env.example:
+env
+
+
+GEMINI_API_KEY=sua_chave_api_aqui
+Ambiente Docker / Containerização:
+bash
+
+
+docker build -t literary-revision-ai .
+docker run --env-file .env -v $(pwd):/app literary-revision-ai
+Execução Bare Metal:
+bash
+
+
+python -m venv .venv
+source .venv/bin/activate  # No Windows: .venv\Scripts\activate
+pip install google-genai python-docx python-dotenv
+python corrigindo.py
+python homologacao.py
+python "gerar relatorio.py"
+📂 7. Árvore de Diretórios (Arquitetura Refatorada)
+text
+
+
+repo-literary-revision-ai/
+├── .env.example                       # Modelo seguro para configuração de chaves de API
+├── .gitignore                         # Exclusão de arquivos temporários, ambientes virtuais e .env
+├── README.md                          # Documentação técnica e comercial padrão Agência Premium
+├── docs/                              # Documentação e briefings
+│   └── briefing_original.txt          # Requisitos originais do cliente 99Freelas
+├── src/                               # Scripts de automação e revisão
+│   ├── corrigindo.py                  # Engine principal de integração com Gemini 2.5 Flash
+│   ├── auditoria.py                   # Módulo de verificação estrutural de capítulos
+│   ├── homologacao.py                 # Script de auditoria e validação cruzada de integridade
+│   ├── gerar_relatorio.py             # Gerador de relatórios executivos em Word (.docx)
+│   └── listar.py                      # Utilitário de inspeção de arquivos
+└── 00-BACKLOG-NAO-CATEGORIZADO/       # Rascunhos e logs temporários
